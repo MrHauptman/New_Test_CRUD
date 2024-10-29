@@ -9,6 +9,8 @@ use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Product;
+use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -35,11 +37,11 @@ class ProductController extends Controller
         return Inertia::render('Seller/CreateProductPage');
     }
     // Read (GET)
-    public function show($id)
-    {
-        $product = $this->productService->getProductById($id);
-        return new ProductResource($product); // Возвращаем ресурс
-    }
+    // public function show($id)
+    // {
+    //     $product = $this->productService->getProductById($id);
+    //     return new ProductResource($product); // Возвращаем ресурс
+    // }
 
     // Update (PUT)
     public function update(UpdateProductRequest $request, Product $product)
@@ -62,5 +64,17 @@ class ProductController extends Controller
     $products = Product::all();
     return ProductResource::collection($products);
     }
+
+    public function myProducts(Request $request)
+    {
+        $userId = $request->user()->id;
+        $products = DB::select('SELECT * FROM products WHERE owner = ?', [$userId]);
+
+        // Adjust image path for each product using Storage::url()
+        foreach ($products as $product) {
+            $product->image = \Storage::url($product->image);
+        }
     
+        return response()->json($products);
+    }
 }

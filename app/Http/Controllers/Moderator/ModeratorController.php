@@ -20,4 +20,12 @@ class ModeratorController extends Controller
         return Inertia::render('Moderator/Dashboard',['users'=>$users, 'sellers'=>$sellers]);
         
     }
+    public function getProductStat(){
+        $stats = DB::table('product_statistics')
+        ->select('owner', 'total_products', 'date')
+        ->where('date', now()->startOfDay())
+        ->get();
+    
+    return response()->json($stats);
+    }
 }

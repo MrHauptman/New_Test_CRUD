@@ -19,7 +19,7 @@
   </template>
   
   <script>
-  import SwitchButton from '@/Components/SwitchButton.vue';
+  
   import axios from 'axios';
   
   export default {
@@ -40,6 +40,7 @@
           console.error('Error fetching products:', error);
         }
       },
+      
     },
   };
   </script>

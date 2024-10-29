@@ -5,7 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\LogoutInactiveUsers;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Jobs\UpdateProductStats;
+use App\Jobs\UpdateProductStatsJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
          $schedule->command('cache:clear')->daily();
          $schedule->command('app:log-out-inactive-users')->everyMinute();   
          $schedule->command('custom:task')->dailyAt('00:00');
-         $schedule->job(new UpdateProductStats)->everyMinute();
+         $schedule->job(new UpdateProductStatsJob)->everyMinute();
     }
 
     /**

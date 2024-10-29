@@ -52,15 +52,20 @@ Route::middleware(['auth', 'moderator'])->group(function () {
 });
 Route::middleware(['auth', 'seller'])->group(function () {
     Route::get('/seller/dashboard/{slug}', [SellerController::class, 'dashboard'])->name('seller.dashboard');
+    Route::get('/products/own/index', [ProductController::class, 'myProducts'])->name('product.own');
     
     Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
    
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
-    
+  
+    Route::get('product/update', [ProductController::class, 'update'])->name('product.update');
+       
 });
+ 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/dashboard/{slug}', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/products/index', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/product/{id}/purchase',[ProductController::class, 'purchase'])->name('product.purchase');
     
 });
 require __DIR__.'/auth.php';
