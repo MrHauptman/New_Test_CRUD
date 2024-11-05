@@ -40,6 +40,9 @@
           console.error('Error fetching products:', error);
         }
       },
+      async buyProduct(){
+        
+      }
       
     },
   };

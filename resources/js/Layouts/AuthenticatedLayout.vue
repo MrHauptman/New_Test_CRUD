@@ -79,10 +79,15 @@
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>
+                                        
+                                        <DropdownLink :href="route('profile.BalanceForm')">Refill Balance
+
+                                        </DropdownLink>
                                     </template>
                                 </Dropdown>
                             </div>
                         </div>
+                        
 
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">

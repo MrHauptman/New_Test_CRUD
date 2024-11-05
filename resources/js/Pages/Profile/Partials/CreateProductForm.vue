@@ -20,6 +20,9 @@
       </div>
       <button type="submit" class="submit-btn">Create Product</button>
     </form>
+    <div v-if="showNotification" class="notification success">
+      Product created successfully!
+    </div>
   </div>
 </template>
   
@@ -32,7 +35,8 @@
           price: '',
           description: ''
         },
-        imageFile: null
+        imageFile: null,
+        showNotification: false
       };
     },
     methods: {
@@ -47,13 +51,21 @@
         formData.append('image', this.imageFile);
   
         try {
-         
-
           const response = await axios.post('/products/store', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           });
+          this.showNotification = true;
+        
+        // Скрываем уведомление через 3 секунды
+        setTimeout(() => {
+          this.showNotification = false;
+        }, 3000);
+          this.product.name = '';
+        this.product.price = '';
+        this.product.description = '';
+        this.imageFile = null;
           console.log('Product created successfully:', response.data);
         } catch (error) {
           console.error('Error creating product:', error);

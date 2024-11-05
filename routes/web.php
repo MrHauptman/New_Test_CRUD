@@ -61,11 +61,13 @@ Route::middleware(['auth', 'seller'])->group(function () {
     Route::get('product/update', [ProductController::class, 'update'])->name('product.update');
        
 });
- 
+    
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/dashboard/{slug}', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/products/index', [ProductController::class, 'index'])->name('product.index');
     Route::get('/product/{id}/purchase',[ProductController::class, 'purchase'])->name('product.purchase');
-    
+    Route::post('/profile/balance/update', [ProfileController::class,'refillBalance'])->name('profile.balance');
+    Route::get('/profile/balance/form',[ProfileController::class, 'BalanceForm'])->name('profile.BalanceForm');
+
 });
 require __DIR__.'/auth.php';

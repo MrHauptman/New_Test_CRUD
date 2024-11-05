@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\ChangeUserRoleRequest;
+use App\Http\Requests\RefillBalanceRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -90,5 +91,19 @@ class ProfileController extends Controller
             return Redirect::route('profile.edit')->with('status', 'Role updated successfully!');
                 }            
     }
+        public function refillBalance(RefillBalanceRequest $request)
+        {
+            $user = $request->user();
+            $user->balance += $request->input('balance',20);
+            $amount = $request->input('balance');
+            $user->save();
+            
+            return response()->json(['message' =>'Balance updated'], 200);
+            
+
+        }
+        public function BalanceForm(){
+            return Inertia::render("Profile/Balance");
+        }
         
         }

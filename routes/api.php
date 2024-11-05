@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Moderator\ModeratorController;
+use App\Http\Controller\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +26,4 @@ Route::middleware(['moderator'])->group(function () {
     Route::get('/moderator/stats', [ModeratorController::class, 'getProductStats']);
 });
 
-   
 
