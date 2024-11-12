@@ -97,6 +97,16 @@ class ProductController extends Controller
         DB::transaction(function () use ($user, $product)
         { $user->balance -= $product->price;
             $user->save();
+
+            DB::table('purchases')->insert([
+                'user_id' =>$user->id,
+                'email' => $user->email,
+                'product_id' => $product->id,
+                'price' => $product->price,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            DB::table('products')->where('id',$product->id)->increment('purchased');
         
         });
         return response()->json(['message' => 'Purchase successful', 'balance' => $user->balance]);

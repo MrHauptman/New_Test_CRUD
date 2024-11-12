@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->decimal('balance', 8, 2)->default(0); // Добавляем столбец balance с двумя знаками после запятой
+        Schema::table('purchases', function (Blueprint $table) {
+            $table->decimal('price', 10,2)->default(0.00);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('balance');
+        Schema::table('purchases', function (Blueprint $table) {
+            //
         });
     }
 };
