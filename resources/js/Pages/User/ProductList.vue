@@ -26,6 +26,7 @@
     data() {
       return {
         products: [],
+        balance: null,
       };
     },
     created() {
@@ -40,7 +41,20 @@
           console.error('Error fetching products:', error);
         }
       },
-      async buyProduct(){
+      async buyProduct(productId)
+      { 
+        try{
+          const response = await axios.post('/purchase', { product_id: productId });
+        alert(response.data.message); 
+        this.balance = response.data.balance; 
+        this.fetchProducts(); 
+        }
+        catch(error)
+        {
+          console.error('Error purchasing product:', error);
+
+        }
+        
         
       }
       

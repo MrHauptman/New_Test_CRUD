@@ -26,7 +26,6 @@ class UpdateProductStatsJob implements ShouldQueue
      */
     public function handle()
     {
-        // Собираем статистику о созданных продуктах за день
         $today = now()->startOfDay();
         $stats = DB::table('products')
             ->select(DB::raw('count(*) as total_products, owner'))
@@ -35,7 +34,6 @@ class UpdateProductStatsJob implements ShouldQueue
             ->get();
             //dd($stats);
 
-        // Обновляем или записываем статистику в кэш или таблицу
         foreach ($stats as $stat) {
             DB::table('product_statistics')->updateOrInsert(
                 ['owner' => $stat->owner, 'date' => $today],

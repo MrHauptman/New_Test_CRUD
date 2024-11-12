@@ -33,7 +33,9 @@ methods: {
       formData.append('balance', this.user.balance);
 
       try {
-        const response = await axios.post('/profile/balance/update', formData);
+        const response = await axios.post('/profile/balance/update', formData, {
+          
+        });
         this.showNotification = true;
         setTimeout(() => {
           this.showNotification = false;

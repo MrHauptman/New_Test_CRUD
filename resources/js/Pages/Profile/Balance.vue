@@ -27,8 +27,4 @@
 <script setup>
 import BalanceForm from './Partials/BalanceForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-
-
-
-
 </script>

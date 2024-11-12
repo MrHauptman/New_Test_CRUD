@@ -77,7 +77,30 @@ class ProductController extends Controller
     
         return response()->json($products);
     }
-    public function purchase(){
+    public function purchase(Request $request)
+    {
+        $user = $request->user();
+        $userBalance = $request->user()->balance;
+        $productId = $request->input('product_id');
+
+        if(!$productId)
+        {
+            return response()->json(['error'=>'Product not found'], 404);
+        }
+        
+        $product = DB::table('products')->where('id', $productId)->first();
+        
+        if ($userBalance < $product->price) {
+            return response()->json(['message' => 'Not enough money'],);
+        }
+
+        DB::transaction(function () use ($user, $product)
+        { $user->balance -= $product->price;
+            $user->save();
+        
+        });
+        return response()->json(['message' => 'Purchase successful', 'balance' => $user->balance]);
+
         
     }
     

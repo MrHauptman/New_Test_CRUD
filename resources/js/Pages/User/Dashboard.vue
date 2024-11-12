@@ -4,7 +4,7 @@
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Welcome,{{ $page.props.auth.user.name }} your Balance is {{ $page.props.auth.user.balance }} $
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Welcome, {{ $page.props.auth.user.name }} your Balance is {{ $page.props.auth.user.balance }} $
             </h2>
         </template>
 
