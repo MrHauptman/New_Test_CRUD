@@ -12,6 +12,7 @@ use App\Models\Product;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\DB;
 
+
 class ProductController extends Controller
 {
     protected $productService;
@@ -80,38 +81,23 @@ class ProductController extends Controller
     public function purchase(Request $request)
     {
         $user = $request->user();
-        $userBalance = $request->user()->balance;
         $productId = $request->input('product_id');
-
-        if(!$productId)
-        {
-            return response()->json(['error'=>'Product not found'], 404);
-        }
-        
-        $product = DB::table('products')->where('id', $productId)->first();
-        
-        if ($userBalance < $product->price) {
-            return response()->json(['message' => 'Not enough money'],);
+       
+        if (!$productId) {
+            return response()->json(['error' => 'Product not found'], 404);
         }
 
-        DB::transaction(function () use ($user, $product)
-        { $user->balance -= $product->price;
-            $user->save();
+        $result = $this->productService->purchaseProduct($user, $productId);
 
-            DB::table('purchases')->insert([
-                'user_id' =>$user->id,
-                'email' => $user->email,
-                'product_id' => $product->id,
-                'price' => $product->price,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            DB::table('products')->where('id',$product->id)->increment('purchased');
-        
-        });
-        return response()->json(['message' => 'Purchase successful', 'balance' => $user->balance]);
+        if (isset($result['error'])) {
+            return response()->json(['error' => $result['error']], $result['status']);
+        }
 
-        
+        return response()->json([
+            'message' => $result['message'],
+            'balance' => $result['balance']
+        ], $result['status']);
+
     }
     
 }
