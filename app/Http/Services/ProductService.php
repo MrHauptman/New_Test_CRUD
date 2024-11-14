@@ -25,7 +25,8 @@ public function createProduct(array $data, StoreProductRequest $request)
 
 public function updateProduct(Product $product, array $data)
 {
-    return $product->update($data);
+    $product->update($data);
+    return $product;
 }
 
 public function deleteProduct(Product $product)
@@ -43,26 +44,20 @@ public function purchaseProduct(User $user, int $productId): array
     {
         $userBalance = $user->balance;
 
-        // Ищем продукт по ID
         $product = DB::table('products')->where('id', $productId)->first();
 
-       
         if (!$product) {
             return ['error' => 'Product not found', 'status' => 404];
         }
-
        
         if ($userBalance < $product->price) {
             return ['message' => 'Not enough money', 'balance' => $user->balance, 'status' => 200];
         }
-
         
         DB::transaction(function () use ($user, $product) {
            
             $user->balance -= $product->price;
             $user->save();
-
-            // Записываем покупку
             DB::table('purchases')->insert([
                 'user_id' => $user->id,
                 'email' => $user->email,
@@ -71,12 +66,8 @@ public function purchaseProduct(User $user, int $productId): array
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
-          
             DB::table('products')->where('id', $product->id)->increment('purchased');
         });
-
-        // Возвращаем успешный результат
         return ['message' => 'Purchase successful', 'balance' => $user->balance, 'status' => 200];
     }
 }

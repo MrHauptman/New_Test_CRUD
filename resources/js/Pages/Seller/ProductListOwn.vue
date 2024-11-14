@@ -20,10 +20,13 @@
       <li v-for="product in products" :key="product.id" class="product-card">
         <img :src="product.image" alt="Product Image" class="product-image" />
         <div class="product-info">
-          <h3 class="product-name">{{ product.name }}</h3>
+          
+          <h3 class="product-name">{{ product.name }}, {{ product.id }}</h3>
           <p class="product-description">{{ product.description }}</p>
           <p class="product-price">Price: {{ product.price }} $</p>
           <p class="product-owner">Owner: me</p>
+          <button @click="UpdateProduct(product.id)">Redact</button> <!-- Buy button -->
+     
    
         </div>
       </li>
@@ -47,8 +50,17 @@ export default {
       } catch (error) {
         console.error('Error fetching products:', error);
       }
-    }
+    },
+    UpdateProduct(productId){
+      window.location.href = `/product/update?id=${productId}`;
+    this.$router.push({name: 'product.redact', params: {id: productId}});
+    
+    
   },
+    
+  },
+  
+
   mounted() {
     this.fetchProducts();
   }

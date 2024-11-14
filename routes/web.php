@@ -55,7 +55,9 @@ Route::middleware(['auth', 'seller'])->group(function () {
     Route::get('/products/own/index', [ProductController::class, 'myProducts'])->name('product.own');
     
     Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
-   
+    //Route::patch('/products/redact', [ProductController::class, 'redact'])->name('products.redact');
+    Route::patch('/products/update/{id}', [ProductController::class, 'redact'])->name('product.redact');
+    
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
   
     Route::get('product/update', [ProductController::class, 'update'])->name('product.update');

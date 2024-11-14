@@ -24,6 +24,6 @@
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import UpdateProductForm from '../Profile/Partials/CreateProductForm.vue';
+import UpdateProductForm from '../Profile/Partials/UpdateProductForm.vue';
 
 </script>

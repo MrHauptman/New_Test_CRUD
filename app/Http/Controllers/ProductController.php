@@ -12,6 +12,9 @@ use App\Models\Product;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\DB;
 
+//use ProductService;
+
+
 
 class ProductController extends Controller
 {
@@ -44,13 +47,20 @@ class ProductController extends Controller
     //     return new ProductResource($product); // Возвращаем ресурс
     // }
 
-    // Update (PUT)
-    public function update(UpdateProductRequest $request, Product $product)
+    
+    public function update()
     {
-        $data = $request->validated();
-        $this->productService->updateProduct($product, $data);
+        return Inertia::render("Seller/UpdateProductPage");
+    }
+    public function redact(UpdateProductRequest $request)
+    {
+        //dd($request->all()); //
+        $productId = $request->input('id');
+        $product = Product::findOrFail($productId);
+        $data = $request->only(['name', 'price', 'description']);
+        $updatedProduct = $this->productService->updateProduct($product, $data);
+        return response()->json($updatedProduct);
 
-        return new ProductResource($product); // Возвращаем ресурс
     }
 
     // Delete (DELETE)
